@@ -7,6 +7,7 @@ const axios = require('axios').default;
 const fs = require('fs');
 const querystring = require('querystring');
 const path = require('path');
+const envfile = require('envfile')
 
 const instance = axios.create({
     baseURL: 'https://api.tdameritrade.com',
@@ -21,6 +22,14 @@ const instance = axios.create({
         'Sec-Fetch-Site': 'same-site'
     }
 });
+
+const authConfigPath = path.join(process.cwd(), `/config/tdaclientauth.json`)
+const readAuthConfig = configPath => require(configPath)
+const createAuthFile = authConfig => JSON.stringify(authConfig, null, 2)
+
+// const authConfigPath = path.join(process.cwd(), `/.env`)
+// const readAuthConfig = configPath => envfile.parse(configPath)
+// const createAuthFile = authConfig => envfile.stringify(authConfig)
 
 /**
  * Use this for sending an HTTP GET request to api.tdameritrade.com
@@ -144,11 +153,11 @@ const performAxiosRequest = async (requestConfig: any, expectData: boolean) => {
 
 const writeOutAuthResultToFile = async (authConfig: IAuthConfig, verbose: boolean = false) => {
     return new Promise((resolve, reject) => {
-        const filePath = path.join(process.cwd(), `/config/tdaclientauth.json`);
+        const filePath = authConfigPath;
         if (verbose) {
             console.log(`writing new auth data to ${filePath}`);
         }
-        fs.writeFile(filePath, JSON.stringify(authConfig, null, 2), (err: Error) => {
+        fs.writeFile(filePath, createAuthFile(authConfig), (err: Error) => {
             if (err) reject(err);
             resolve(authConfig);
         });
@@ -168,7 +177,7 @@ const getNewAccessTokenPostData = (authConfig: IAuthConfig) => {
 
 const doAuthenticationHandshake = async (auth_config: IAuthConfig, verbose: boolean = false) => {
 
-    const authConfig = auth_config || require(path.join(process.cwd(), `/config/tdaclientauth.json`));
+    const authConfig = auth_config || authConfigPath;
     const requestConfig = {
         method: 'post',
         url: '/v1/oauth2/token',
@@ -223,7 +232,7 @@ const refreshAuthentication = async (auth_config: IAuthConfig, verbose: boolean 
  */
 const getAuthentication = async (config: any) => {
     config = config || {};
-    const authConfig = config.authConfig || require(path.join(process.cwd(), `/config/tdaclientauth.json`));
+    const authConfig = config.authConfig || authConfigPath;
     if (!authConfig.expires_on || authConfig.expires_on < Date.now() + (10*60*1000)) {
         return refreshAuthentication(authConfig, config.verbose);
     } else {
