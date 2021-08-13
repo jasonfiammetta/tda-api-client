@@ -24,8 +24,8 @@ const instance = axios.create({
 });
 
 const authConfigPath = path.join(process.cwd(), `/config/tdaclientauth.json`)
-const readAuthConfig = configPath => require(configPath)
-const createAuthFile = authConfig => JSON.stringify(authConfig, null, 2)
+const readAuthConfig = (configPath: string) => require(configPath)
+const createAuthFile = (authConfig: any) => JSON.stringify(authConfig, null, 2)
 
 // const authConfigPath = path.join(process.cwd(), `/.env`)
 // const readAuthConfig = configPath => envfile.parse(configPath)
