@@ -28,8 +28,8 @@ const readAuthConfig = (configPath: string) => require(configPath)
 const createAuthFile = (authConfig: any) => JSON.stringify(authConfig, null, 2)
 
 // const authConfigPath = path.join(process.cwd(), `/.env`)
-// const readAuthConfig = configPath => envfile.parse(configPath)
-// const createAuthFile = authConfig => envfile.stringify(authConfig)
+// const readAuthConfig = (configPath: string) => envfile.parse(configPath)
+// const createAuthFile = (authConfig: any) => envfile.stringify(authConfig)
 
 /**
  * Use this for sending an HTTP GET request to api.tdameritrade.com

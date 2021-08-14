@@ -18,6 +18,7 @@ export interface IAuthConfig {
  * @async
  */
 const refreshAuthentication = async (auth_config: IAuthConfig | object, config: any) => {
+    config.verbose = true
     return tdApiInterface.refreshAuthentication(auth_config, config);
 };
 
@@ -28,6 +29,7 @@ const refreshAuthentication = async (auth_config: IAuthConfig | object, config: 
  * @async
  */
 const getAuthentication = async (config: any) => {
+    config.verbose = true
     return tdApiInterface.getAuthentication(config);
 };
 
