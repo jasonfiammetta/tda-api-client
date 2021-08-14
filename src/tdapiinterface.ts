@@ -151,7 +151,7 @@ const performAxiosRequest = async (requestConfig: any, expectData: boolean) => {
     });
 };
 
-const writeOutAuthResultToFile = async (authConfig: IAuthConfig, verbose: boolean = false) => {
+const writeOutAuthResultToFile = async (authConfig: IAuthConfig, verbose: boolean = true) => {
     return new Promise((resolve, reject) => {
         const filePath = authConfigPath;
         if (verbose) {
@@ -175,7 +175,7 @@ const getNewAccessTokenPostData = (authConfig: IAuthConfig) => {
     });
 };
 
-const doAuthenticationHandshake = async (auth_config: IAuthConfig, verbose: boolean = false) => {
+const doAuthenticationHandshake = async (auth_config: IAuthConfig, verbose: boolean = true) => {
 
     const authConfig = auth_config || authConfigPath;
     const requestConfig = {
@@ -216,7 +216,7 @@ const doAuthenticationHandshake = async (auth_config: IAuthConfig, verbose: bool
  * @returns {Object} auth info object with some calculated fields, including the all-important access_token; this is written to the auth json file in project's config/
  * @async
  */
-const refreshAuthentication = async (auth_config: IAuthConfig, verbose: boolean = false) => {
+const refreshAuthentication = async (auth_config: IAuthConfig, verbose: boolean = true) => {
     auth_config = auth_config || {};
     if (verbose) {
         console.log('refreshing authentication');
