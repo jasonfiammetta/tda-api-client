@@ -23,13 +23,13 @@ const instance = axios.create({
     }
 });
 
-const authConfigPath = path.join(process.cwd(), `/config/tdaclientauth.json`)
-const readAuthConfig = (configPath: string) => require(configPath)
-const createAuthFile = (authConfig: any) => JSON.stringify(authConfig, null, 2)
+// const authConfigPath = path.join(process.cwd(), `/config/tdaclientauth.json`)
+// const readAuthConfig = (configPath: string) => require(configPath)
+// const createAuthFile = (authConfig: any) => JSON.stringify(authConfig, null, 2)
 
-// const authConfigPath = path.join(process.cwd(), `/.env`)
-// const readAuthConfig = (configPath: string) => envfile.parse(configPath)
-// const createAuthFile = (authConfig: any) => envfile.stringify(authConfig)
+const authConfigPath = path.join(process.cwd(), `/.env`)
+const readAuthConfig = (configPath: string) => envfile.parse(configPath)
+const createAuthFile = (authConfig: any) => envfile.stringify(authConfig)
 
 /**
  * Use this for sending an HTTP GET request to api.tdameritrade.com
