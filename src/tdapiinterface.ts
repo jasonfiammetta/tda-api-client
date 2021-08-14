@@ -177,7 +177,7 @@ const getNewAccessTokenPostData = (authConfig: IAuthConfig) => {
 
 const doAuthenticationHandshake = async (auth_config: IAuthConfig, verbose: boolean = true) => {
 
-    const authConfig = auth_config || authConfigPath;
+    const authConfig = auth_config || readAuthConfig(authConfigPath);
     const requestConfig = {
         method: 'post',
         url: '/v1/oauth2/token',
@@ -232,7 +232,7 @@ const refreshAuthentication = async (auth_config: IAuthConfig, verbose: boolean 
  */
 const getAuthentication = async (config: any) => {
     config = config || {};
-    const authConfig = config.authConfig || authConfigPath;
+    const authConfig = config.authConfig || readAuthConfig(authConfigPath);
     if (!authConfig.expires_on || authConfig.expires_on < Date.now() + (10*60*1000)) {
         return refreshAuthentication(authConfig, config.verbose);
     } else {
