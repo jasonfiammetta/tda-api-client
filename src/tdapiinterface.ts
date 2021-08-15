@@ -34,11 +34,13 @@ const instance = axios.create({
 // const authConfigPath = path.join(process.cwd(), `.env`)
 // console.log('auth path:', authConfigPath)
 const readAuthConfig = (configPath: string) => {
+  console.log('config path:', configPath)
   const p = envfile.parse(configPath)
   console.log('parsed env file:', p)
   return p
 }
 const createAuthFile = (authConfig: any) => {
+  console.log('auth config:', authConfig)
   const f = envfile.stringify(authConfig)
   console.log('auth file:', f)
   return f
