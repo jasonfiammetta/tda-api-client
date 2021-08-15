@@ -31,11 +31,11 @@ const instance = axios.create({
 // const readAuthConfig = (configPath: string) => envfile.parse(configPath)
 // const createAuthFile = (authConfig: any) => envfile.stringify(authConfig)
 
-const authConfigPath = path.join(process.cwd(), `.env`)
-console.log('auth path:', authConfigPath)
+// const authConfigPath = path.join(process.cwd(), `.env`)
+// console.log('auth path:', authConfigPath)
 const readAuthConfig = (configPath: string) => {
   const p = envfile.parse(configPath)
-  console.log('parsed config path:', p)
+  console.log('parsed env file:', p)
   return p
 }
 const createAuthFile = (authConfig: any) => {
@@ -166,7 +166,7 @@ const performAxiosRequest = async (requestConfig: any, expectData: boolean) => {
 
 const writeOutAuthResultToFile = async (authConfig: IAuthConfig, verbose: boolean = true) => {
     return new Promise((resolve, reject) => {
-        const filePath = authConfigPath;
+        const filePath = path.join(process.cwd(), `.env`);
         if (verbose) {
             console.log(`writing new auth data to ${filePath}`);
         }
@@ -190,7 +190,7 @@ const getNewAccessTokenPostData = (authConfig: IAuthConfig) => {
 
 const doAuthenticationHandshake = async (auth_config: IAuthConfig, verbose: boolean = true) => {
 
-    const authConfig = auth_config || readAuthConfig(authConfigPath);
+    const authConfig = auth_config || readAuthConfig(path.join(process.cwd(), `.env`));
     const requestConfig = {
         method: 'post',
         url: '/v1/oauth2/token',
@@ -245,7 +245,7 @@ const refreshAuthentication = async (auth_config: IAuthConfig, verbose: boolean 
  */
 const getAuthentication = async (config: any) => {
     config = config || {};
-    const authConfig = config.authConfig || readAuthConfig(authConfigPath);
+    const authConfig = config.authConfig || readAuthConfig(path.join(process.cwd(), `.env`));
     if (!authConfig.expires_on || authConfig.expires_on < Date.now() + (10*60*1000)) {
         return refreshAuthentication(authConfig, config.verbose);
     } else {
